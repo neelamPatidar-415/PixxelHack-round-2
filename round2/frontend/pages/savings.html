@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Savings Goal Tracker - FinLit Portal</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">💰 FinLit Portal</div>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="budget.html">Budget</a>
+        <a href="savings.html" class="active">Savings</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="investments.html">Investments</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="hero" style="padding: 60px 20px;">
+    <div class="hero-content">
+      <h1>🎯 Savings Goal Tracker</h1>
+      <p class="hero-subtitle">Set, track, and achieve your financial goals with visual progress tracking</p>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <section style="padding: 40px 0; background: rgba(255, 255, 255, 0.95);">
+    <div class="container">
+      
+      <!-- CREATE NEW GOAL -->
+      <div class="card">
+        <h2>➕ Create New Savings Goal</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+          
+          <div class="form-group">
+            <label for="goalName">Goal Name</label>
+            <input type="text" id="goalName" placeholder="e.g., New Laptop, Trip to Goa">
+          </div>
+          
+          <div class="form-group">
+            <label for="goalAmount">Target Amount (₹)</label>
+            <input type="number" id="goalAmount" placeholder="e.g., 50000">
+          </div>
+          
+          <div class="form-group">
+            <label for="goalDeadline">Target Date</label>
+            <input type="date" id="goalDeadline">
+          </div>
+          
+          <div class="form-group">
+            <label for="goalCategory">Category</label>
+            <select id="goalCategory">
+              <option value="education">📚 Education</option>
+              <option value="travel">✈️ Travel</option>
+              <option value="gadgets">📱 Gadgets</option>
+              <option value="emergency">🚨 Emergency Fund</option>
+              <option value="shopping">🛍️ Shopping</option>
+              <option value="other">📦 Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="initialAmount">Initial Amount (if any) (₹)</label>
+          <input type="number" id="initialAmount" placeholder="0" value="0">
+        </div>
+        
+        <button onclick="createNewGoal()" class="btn btn-primary">🎯 Create Goal</button>
+      </div>
+
+      <!-- ACTIVE GOALS LIST -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+          <h2>📊 Your Active Goals</h2>
+          <div>
+            <button onclick="filterGoals('all')" class="btn btn-secondary" id="filterAll">All</button>
+            <button onclick="filterGoals('active')" class="btn btn-secondary" id="filterActive">Active</button>
+            <button onclick="filterGoals('completed')" class="btn btn-secondary" id="filterCompleted">Completed</button>
+          </div>
+        </div>
+        
+        <div id="goalsContainer">
+          <div class="no-goals-message" style="text-align: center; padding: 40px; color: #666;">
+            <h3>🎯 No goals yet!</h3>
+            <p>Create your first savings goal above to get started.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK ADD SAVINGS -->
+      <div class="card" id="quickAddCard" style="display: none;">
+        <h2>💰 Quick Add Savings</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+          <button onclick="quickAdd(100)" class="btn btn-secondary">+ ₹100</button>
+          <button onclick="quickAdd(500)" class="btn btn-secondary">+ ₹500</button>
+          <button onclick="quickAdd(1000)" class="btn btn-secondary">+ ₹1000</button>
+          <button onclick="showCustomAdd()" class="btn btn-primary">Custom Amount</button>
+        </div>
+        
+        <div id="customAddSection" style="display: none;">
+          <div class="form-group">
+            <label for="customAmount">Add Custom Amount (₹)</label>
+            <input type="number" id="customAmount" placeholder="Enter amount">
+          </div>
+          <div class="form-group">
+            <label for="savingsNote">Note (optional)</label>
+            <input type="text" id="savingsNote" placeholder="e.g., Birthday money, part-time job">
+          </div>
+          <button onclick="addCustomSaving()" class="btn btn-primary">Add to Goal</button>
+        </div>
+        
+        <div class="form-group">
+          <label for="selectedGoal">Select Goal to Add To:</label>
+          <select id="selectedGoal"></select>
+        </div>
+      </div>
+
+      <!-- SAVINGS INSIGHTS -->
+      <div class="card">
+        <h2>📈 Your Savings Insights</h2>
+        <div id="savingsInsights">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            
+            <div class="alert alert-info">
+              <strong>💵 Total Saved</strong><br>
+              <span id="totalSavedAmount">₹0</span>
+            </div>
+            
+            <div class="alert alert-success">
+              <strong>🎯 Active Goals</strong><br>
+              <span id="activeGoalsCount">0</span>
+            </div>
+            
+            <div class="alert alert-warning">
+              <strong>🏆 Completed Goals</strong><br>
+              <span id="completedGoalsCount">0</span>
+            </div>
+            
+            <div class="alert alert-info">
+              <strong>📊 Average Progress</strong><br>
+              <span id="averageProgress">0%</span>
+            </div>
+          </div>
+          
+          <!-- MONTHLY SAVINGS CHART -->
+          <div style="margin-top: 30px;">
+            <h3>📅 Monthly Savings Progress</h3>
+            <div id="monthlySavingsChart" style="background: white; padding: 20px; border-radius: 10px; margin-top: 15px;">
+              <p style="text-align: center; color: #666;">Start saving to see your progress chart!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAVINGS TIPS -->
+      <div class="card">
+        <h2>💡 Smart Savings Tips</h2>
+        <div id="savingsTipsContainer">
+          <div class="savings-tip" style="background: rgba(39, 174, 96, 0.1); padding: 20px; border-radius: 10px; margin: 10px 0;">
+            <h4>🎯 Set SMART Goals</h4>
+            <p>Make your goals Specific, Measurable, Achievable, Relevant, and Time-bound for better success rates.</p>
+          </div>
+          
+          <div class="savings-tip" style="background: rgba(52, 152, 219, 0.1); padding: 20px; border-radius: 10px; margin: 10px 0;">
+            <h4>🔄 Automate Your Savings</h4>
+            <p>Set up automatic transfers to your savings account right after you receive money.</p>
+          </div>
+          
+          <div class="savings-tip" style="background: rgba(155, 89, 182, 0.1); padding: 20px; border-radius: 10px; margin: 10px 0;">
+            <h4>📱 Use the 24-Hour Rule</h4>
+            <p>Wait 24 hours before making non-essential purchases. Often, you'll realize you don't need it!</p>
+          </div>
+        </div>
+        
+        <button onclick="showRandomSavingsTip()" class="btn btn-primary" style="margin-top: 20px;">Get New Tip</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GOAL CELEBRATION MODAL -->
+  <div id="celebrationModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2>🎉 Congratulations!</h2>
+      <p id="celebrationMessage"></p>
+      <button onclick="closeCelebrationModal()" class="btn btn-primary">Awesome!</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Student Financial Literacy Portal. Built for students, by students.</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/savings.js"></script>
+</body>
+</html>

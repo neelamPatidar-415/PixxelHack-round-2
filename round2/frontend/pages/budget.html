@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Budget Calculator - FinLit Portal</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">💰 FinLit Portal</div>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="budget.html" class="active">Budget</a>
+        <a href="savings.html">Savings</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="investments.html">Investments</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="hero" style="padding: 60px 20px;">
+    <div class="hero-content">
+      <h1>📊 Smart Budget Calculator</h1>
+      <p class="hero-subtitle">Take control of your finances with our interactive budget planner</p>
+    </div>
+  </section>
+
+  <!-- BUDGET CALCULATOR -->
+  <section style="padding: 40px 0; background: rgba(255, 255, 255, 0.95);">
+    <div class="container">
+      
+      <!-- SIMPLE BUDGET CALCULATOR -->
+      <div class="card">
+        <h2>💰 Quick Budget Check</h2>
+        <div class="form-group">
+          <label for="income">Monthly Income (₹)</label>
+          <input type="number" id="income" placeholder="Enter your monthly income">
+        </div>
+        <div class="form-group">
+          <label for="expenses">Total Monthly Expenses (₹)</label>
+          <input type="number" id="expenses" placeholder="Enter your total expenses">
+        </div>
+        <button onclick="calculateSimpleBudget()" class="btn btn-primary">Calculate Balance</button>
+        <div id="simpleResult" class="result-display" style="display:none;"></div>
+      </div>
+
+      <!-- DETAILED BUDGET PLANNER -->
+      <div class="card">
+        <h2>📋 Detailed Budget Planner</h2>
+        
+        <!-- INCOME SECTION -->
+        <h3>💵 Income Sources</h3>
+        <div class="form-group">
+          <label for="salary">Allowance/Part-time Job (₹)</label>
+          <input type="number" id="salary" placeholder="Monthly allowance or salary" value="0">
+        </div>
+        <div class="form-group">
+          <label for="otherIncome">Other Income (₹)</label>
+          <input type="number" id="otherIncome" placeholder="Freelancing, gifts, etc." value="0">
+        </div>
+
+        <!-- EXPENSES SECTION -->
+        <h3>💸 Monthly Expenses</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+          
+          <div class="form-group">
+            <label for="food">Food & Dining (₹)</label>
+            <input type="number" id="food" placeholder="Food expenses" value="0">
+          </div>
+          
+          <div class="form-group">
+            <label for="transport">Transportation (₹)</label>
+            <input type="number" id="transport" placeholder="Bus, metro, fuel" value="0">
+          </div>
+          
+          <div class="form-group">
+            <label for="education">Education (₹)</label>
+            <input type="number" id="education" placeholder="Books, courses, fees" value="0">
+          </div>
+          
+          <div class="form-group">
+            <label for="entertainment">Entertainment (₹)</label>
+            <input type="number" id="entertainment" placeholder="Movies, games, outings" value="0">
+          </div>
+          
+          <div class="form-group">
+            <label for="shopping">Shopping (₹)</label>
+            <input type="number" id="shopping" placeholder="Clothes, accessories" value="0">
+          </div>
+          
+          <div class="form-group">
+            <label for="miscellaneous">Miscellaneous (₹)</label>
+            <input type="number" id="miscellaneous" placeholder="Other expenses" value="0">
+          </div>
+        </div>
+
+        <button onclick="calculateDetailedBudget()" class="btn btn-primary">Calculate Detailed Budget</button>
+        
+        <!-- RESULTS SECTION -->
+        <div id="detailedResults" style="display:none; margin-top: 30px;">
+          <h3>📊 Your Budget Summary</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+            <div class="alert alert-info">
+              <strong>Total Income:</strong><br>
+              <span id="totalIncomeDisplay">₹0</span>
+            </div>
+            <div class="alert alert-warning">
+              <strong>Total Expenses:</strong><br>
+              <span id="totalExpensesDisplay">₹0</span>
+            </div>
+            <div class="alert" id="balanceAlert">
+              <strong>Remaining Balance:</strong><br>
+              <span id="balanceDisplay">₹0</span>
+            </div>
+          </div>
+          
+          <!-- EXPENSE BREAKDOWN CHART -->
+          <div class="card" style="background: white; margin-top: 20px;">
+            <h3>💼 Expense Breakdown</h3>
+            <div id="expenseChart"></div>
+          </div>
+          
+          <!-- BUDGET RECOMMENDATIONS -->
+          <div class="card" style="background: white; margin-top: 20px;">
+            <h3>💡 Budget Recommendations</h3>
+            <div id="recommendations"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 50-30-20 RULE CALCULATOR -->
+      <div class="card">
+        <h2>⚖️ 50-30-20 Budget Rule</h2>
+        <p>Follow the popular budgeting rule: 50% needs, 30% wants, 20% savings</p>
+        
+        <div class="form-group">
+          <label for="ruleIncome">Your Monthly Income (₹)</label>
+          <input type="number" id="ruleIncome" placeholder="Enter your income">
+        </div>
+        
+        <button onclick="calculate50_30_20()" class="btn btn-primary">Apply 50-30-20 Rule</button>
+        
+        <div id="ruleResults" style="display:none; margin-top: 20px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div class="alert alert-success">
+              <strong>🏠 Needs (50%)</strong><br>
+              <span id="needsAmount">₹0</span><br>
+              <small>Rent, food, utilities, transport</small>
+            </div>
+            <div class="alert alert-info">
+              <strong>🎯 Wants (30%)</strong><br>
+              <span id="wantsAmount">₹0</span><br>
+              <small>Entertainment, shopping, dining out</small>
+            </div>
+            <div class="alert alert-success">
+              <strong>💰 Savings (20%)</strong><br>
+              <span id="savingsAmount">₹0</span><br>
+              <small>Emergency fund, investments</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Student Financial Literacy Portal. Built for students, by students.</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/budget.js"></script>
+</body>
+</html>

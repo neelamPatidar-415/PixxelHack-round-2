@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Financial Literacy Portal</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">💰 FinLit Portal</div>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="pages/budget.html">Budget</a>
+        <a href="pages/savings.html">Savings</a>
+        <a href="pages/quiz.html">Quiz</a>
+        <a href="pages/investments.html">Investments</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>🎯 Master Your Money Skills</h1>
+      <p class="hero-subtitle">Learn financial literacy through interactive tools and games designed for students</p>
+      <div class="hero-buttons">
+        <a href="pages/budget.html" class="btn btn-primary">Start Budgeting</a>
+        <a href="pages/quiz.html" class="btn btn-secondary">Take Quiz</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES GRID -->
+  <section class="features">
+    <div class="container">
+      <h2>What You'll Learn</h2>
+      <div class="features-grid">
+        
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Smart Budgeting</h3>
+          <p>Learn to track income and expenses with our interactive budget calculator</p>
+          <a href="pages/budget.html" class="feature-link">Try Budget Tool →</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Savings Goals</h3>
+          <p>Set and track your financial goals with visual progress tracking</p>
+          <a href="pages/savings.html" class="feature-link">Set Goals →</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3>Financial Quiz</h3>
+          <p>Test your money knowledge with interactive quizzes and earn badges</p>
+          <a href="pages/quiz.html" class="feature-link">Take Quiz →</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <h3>Investment Basics</h3>
+          <p>Understand compound interest and learn investment fundamentals</p>
+          <a href="pages/investments.html" class="feature-link">Learn Investing →</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Fraud Protection</h3>
+          <p>Stay safe from scams and learn digital payment security</p>
+          <a href="pages/quiz.html" class="feature-link">Safety Tips →</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🌱</div>
+          <h3>Daily Tips</h3>
+          <p>Get practical money advice that you can use in everyday life</p>
+          <a href="#tips" class="feature-link">Get Tips →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAILY TIPS SECTION -->
+  <section id="tips" class="tips-section">
+    <div class="container">
+      <div class="card">
+        <h2>💡 Daily Money Tip</h2>
+        <p id="tipText">Click below to get your first tip!</p>
+        <button onclick="showRandomTip()" class="btn btn-primary">Get New Tip</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Student Financial Literacy Portal. Built for students, by students.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
