@@ -22,7 +22,7 @@ app.use(session({
 }));
 app.use(flash());
 
-const userRouter = require('./routes/UserRouter.js');
+const userRouter = require('./routes/userRouter.js');
 // const dematRouter = require('./routes/dematRouter.js');
 
 // app.engine('html', require('ejs').renderFile);
