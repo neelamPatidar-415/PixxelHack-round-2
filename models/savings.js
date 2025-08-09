@@ -59,3 +59,4 @@ const savingSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model("savings", savingSchema);
+

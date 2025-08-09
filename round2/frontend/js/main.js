@@ -180,3 +180,149 @@ const FinLitUtils = {
 
 // Make utility functions available globally
 window.FinLitUtils = FinLitUtils;
+
+function showRandomTip() {
+  const randomIndex = Math.floor(Math.random() * tips.length);
+  const tipElement = document.getElementById("tipText");
+  
+  if (tipElement) {
+    // Add bounce effect to button
+    const button = tipElement.parentNode.querySelector('button');
+    if (button) {
+      button.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        button.style.transform = 'scale(1)';
+      }, 150);
+    }
+    
+    // Simple fade effect (keeping it safe)
+    tipElement.style.opacity = "0";
+    
+    setTimeout(() => {
+      tipElement.innerText = tips[randomIndex];
+      tipElement.style.opacity = "1";
+    }, 200);
+  }
+}
+
+// Safe floating particles effect (only for homepage)
+function createFloatingParticles() {
+  // Only run on homepage
+  if (!window.location.pathname.includes('index.html') && window.location.pathname !== '/') {
+    return;
+  }
+  
+  const hero = document.querySelector('.hero');
+  if (!hero || hero.querySelector('.floating-particle')) return; // Don't create if already exists
+  
+  for (let i = 0; i < 15; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'floating-particle';
+    particle.style.cssText = `
+      position: absolute;
+      width: ${Math.random() * 3 + 1}px;
+      height: ${Math.random() * 3 + 1}px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      left: ${Math.random() * 100}%;
+      top: ${Math.random() * 100}%;
+      animation: gentleFloat ${Math.random() * 8 + 6}s ease-in-out infinite;
+      animation-delay: ${Math.random() * 3}s;
+      pointer-events: none;
+      z-index: 1;
+    `;
+    hero.appendChild(particle);
+  }
+}
+
+// Safe scroll enhancement (doesn't override existing functionality)
+function addSmoothScrolling() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // Only add if not already handled
+    if (!anchor.hasAttribute('data-smooth-scroll')) {
+      anchor.setAttribute('data-smooth-scroll', 'true');
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const target = document.querySelector(targetId);
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    }
+  });
+}
+
+// Safe initialization that won't interfere with existing code
+function initSafeEnhancements() {
+  // Only run these on the homepage
+  const isHomepage = !window.location.pathname.includes('pages/');
+  
+  if (isHomepage) {
+    createFloatingParticles();
+  }
+  
+  addSmoothScrolling();
+}
+
+// Add CSS for safe animations
+if (!document.querySelector('#safe-animations-style')) {
+  const style = document.createElement('style');
+  style.id = 'safe-animations-style';
+  style.textContent = `
+    @keyframes gentleFloat {
+      0%, 100% { 
+        transform: translateY(0px) translateX(0px); 
+        opacity: 0.4;
+      }
+      25% { 
+        transform: translateY(-15px) translateX(5px); 
+        opacity: 0.6;
+      }
+      50% { 
+        transform: translateY(-5px) translateX(-5px); 
+        opacity: 0.8;
+      }
+      75% { 
+        transform: translateY(-20px) translateX(3px); 
+        opacity: 0.5;
+      }
+    }
+    
+    /* Safe button enhancement */
+    .btn {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Only apply to homepage buttons to avoid conflicts */
+    .hero .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+      pointer-events: none;
+    }
+    
+    .hero .btn:hover::before {
+      left: 100%;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// Safe initialization - wait for existing scripts to load first
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initSafeEnhancements, 100); // Small delay to ensure other scripts load first
+  });
+} else {
+  setTimeout(initSafeEnhancements, 100);
+}

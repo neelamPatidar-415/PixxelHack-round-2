@@ -4,326 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Investment Basics - FinLit Portal</title>
-  <style>
-    /* ===== GLOBAL STYLES ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      line-height: 1.6;
-      color: #333;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* ===== NAVIGATION ===== */
-    nav {
-      background: rgba(44, 62, 80, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 15px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: white;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 30px;
-    }
-
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 16px;
-      padding: 8px 16px;
-      border-radius: 25px;
-      transition: all 0.3s ease;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      background: #27ae60;
-      transform: translateY(-2px);
-    }
-
-    /* ===== HERO SECTION ===== */
-    .hero {
-      text-align: center;
-      padding: 100px 20px;
-      color: white;
-    }
-
-    .hero-content h1 {
-      font-size: 3.5rem;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-
-    .hero-subtitle {
-      font-size: 1.3rem;
-      margin-bottom: 40px;
-      opacity: 0.9;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* ===== CARDS ===== */
-    .card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      margin: 20px 0;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .card h2 {
-      color: #2c3e50;
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 2rem;
-    }
-
-    /* ===== BUTTONS ===== */
-    .btn {
-      display: inline-block;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 30px;
-      font-size: 16px;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: center;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #27ae60, #2ecc71);
-      color: white;
-      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
-    }
-
-    .btn-secondary {
-      background: linear-gradient(135deg, #95a5a6, #7f8c8d);
-      color: white;
-      box-shadow: 0 4px 15px rgba(149, 165, 166, 0.4);
-    }
-
-    .btn-success {
-      background: linear-gradient(135deg, #27ae60, #2ecc71);
-      color: white;
-      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
-    }
-
-    .btn-warning {
-      background: linear-gradient(135deg, #f39c12, #d68910);
-      color: white;
-      box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
-    }
-
-    .btn-danger {
-      background: linear-gradient(135deg, #e74c3c, #c0392b);
-      color: white;
-      box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    }
-
-    /* ===== FORM INPUTS ===== */
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #2c3e50;
-    }
-
-    input[type="number"],
-    input[type="range"] {
-      width: 100%;
-      padding: 15px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      background: rgba(255,255,255,0.9);
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #27ae60;
-      box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
-    }
-
-    /* ===== BADGES ===== */
-    .badge {
-      display: inline-block;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin: 2px;
-    }
-
-    .badge-success {
-      background: #27ae60;
-      color: white;
-    }
-
-    .badge-danger {
-      background: #e74c3c;
-      color: white;
-    }
-
-    .badge-info {
-      background: #3498db;
-      color: white;
-    }
-
-    .badge-warning {
-      background: #f39c12;
-      color: white;
-    }
-
-    /* ===== ALERTS ===== */
-    .alert {
-      padding: 15px 20px;
-      border-radius: 10px;
-      margin: 20px 0;
-      border: 1px solid transparent;
-    }
-
-    .alert-success {
-      background: rgba(39, 174, 96, 0.1);
-      border-color: #27ae60;
-      color: #1e7c3e;
-    }
-
-    .alert-info {
-      background: rgba(52, 152, 219, 0.1);
-      border-color: #3498db;
-      color: #2980b9;
-    }
-
-    .alert-warning {
-      background: rgba(243, 156, 18, 0.1);
-      border-color: #f39c12;
-      color: #d68910;
-    }
-
-    /* ===== RESPONSIVE DESIGN ===== */
-    @media (max-width: 768px) {
-      .nav-container {
-        flex-direction: column;
-        gap: 20px;
-      }
-      
-      .nav-links {
-        gap: 15px;
-      }
-      
-      .hero-content h1 {
-        font-size: 2.5rem;
-      }
-      
-      .hero-subtitle {
-        font-size: 1.1rem;
-      }
-      
-      .card {
-        padding: 25px;
-        margin: 15px;
-      }
-    }
-
-    /* ===== INVESTMENT SPECIFIC STYLES ===== */
-    .investment-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .concept-card {
-      transition: transform 0.3s ease;
-    }
-
-    .concept-card:hover {
-      transform: scale(1.05);
-    }
-
-    .game-button {
-      margin: 5px;
-      min-width: 200px;
-      padding: 15px;
-    }
-
-    .result-display {
-      text-align: center;
-      padding: 20px;
-      margin: 15px 0;
-      border-radius: 10px;
-      font-weight: 600;
-    }
-
-    .result-positive {
-      background: rgba(39, 174, 96, 0.1);
-      color: #1e7c3e;
-    }
-
-    .result-negative {
-      background: rgba(231, 76, 60, 0.1);
-      color: #c0392b;
-    }
-
-    #chartCanvas {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-  </style>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
 </head>
 <body>
 
   <!-- NAVIGATION BAR -->
   <nav>
     <div class="nav-container">
-      <div class="logo">💰 FinLit Portal</div>
+      <!-- <div class="logo">💰 FinLit Portal</div> -->
+      <div class="logo"><img src="/images/WhatsApp Image 2025-08-09 at 16.46.01_0b7ada1a.jpg" alt="finlit-logo"> <div>FinLit</div></div>
       <div class="nav-links">
         <a href="/" class="active">Home</a>
         <a href="/budget">Budget</a>
@@ -627,7 +317,8 @@
               <div>Total Invested: ₹2,40,000</div>
             </div>
             <div style="font-size: 1.5em; font-weight: bold; background: rgba(255,255,255,0.2); padding: 10px; border-radius: 10px; margin-top: 15px;">
-              Final Value: ₹1,12,00,000
+              <!-- Final Value: ₹1,12,00,000 -->
+               Final Value(at age 60): <br> ₹1,38,00,000
             </div>
           </div>
           
@@ -639,7 +330,8 @@
               <div>Total Invested: ₹7,20,000</div>
             </div>
             <div style="font-size: 1.5em; font-weight: bold; background: rgba(255,255,255,0.2); padding: 10px; border-radius: 10px; margin-top: 15px;">
-              Final Value: ₹70,60,000
+              <!-- Final Value: ₹70,60,000 -->
+               Final Value(at age 60): <br> ₹70,60,000
             </div>
           </div>
         </div>
@@ -652,6 +344,13 @@
 
     </div>
   </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Web Alliance. All rights reserved.</p>
+    </div>
+  </footer>
 
   <script src="../js/investments.js"></script>
 </body>

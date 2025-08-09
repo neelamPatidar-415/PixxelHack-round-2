@@ -43,6 +43,19 @@ nav {
   font-size: 24px;
   font-weight: bold;
   color: white;
+  /* changes- */
+  height: 60px; 
+  width: 100px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+/* /changes/ */
+
+.logo img{
+  height: 60px;
+  width: 100px;
+  border-radius: 10%;
 }
 
 .nav-links {
@@ -69,23 +82,46 @@ nav {
 /* ===== HERO SECTION ===== */
 .hero {
   text-align: center;
-  padding: 100px 20px;
+  padding: 80px 20px;
   color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating background elements */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: floatBackground 20s linear infinite;
+  z-index: -1;
+}
+
+@keyframes floatBackground {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(-50px, -50px) rotate(360deg); }
 }
 
 .hero-content h1 {
   font-size: 3.5rem;
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  animation: slideInDown 1s ease-out;
 }
 
 .hero-subtitle {
   font-size: 1.3rem;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
   opacity: 0.9;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  animation: fadeInUp 1s ease-out 0.3s both;
 }
 
 .hero-buttons {
@@ -93,6 +129,29 @@ nav {
   gap: 20px;
   justify-content: center;
   flex-wrap: wrap;
+  animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===== FEATURES SECTION ===== */
