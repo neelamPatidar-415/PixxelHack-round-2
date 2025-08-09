@@ -138,22 +138,29 @@
   <link rel="stylesheet" href="/css/components.css">
 </head>
 <body class="bg-gradient-to-br from-accent to-purple min-h-screen text-gray-800">
-    <!-- NAVIGATION BAR -->
-  <nav>
-    <div class="nav-container">
-      <!-- <div class="logo">💰 FinLit Portal</div> -->
-      <div class="logo"><img src="/images/WhatsApp Image 2025-08-09 at 16.46.01_0b7ada1a.jpg" alt="finlit-logo"> <div>FinLit</div></div>
-      <div class="nav-links">
-        <a href="/" class="active">Home</a>
+  
+  <!-- ENHANCED RESPONSIVE NAVIGATION BAR -->
+<nav>
+  <div class="nav-container">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="/images/WhatsApp Image 2025-08-09 at 16.46.01_0b7ada1a.jpg" alt="FinLit Logo">
+      <div>FinLit</div>
+    </div>
+
+    <!-- Mobile Menu Toggle Button (will be created by JavaScript) -->
+    <!-- Navigation Links -->
+    <div class="nav-links">
+      <a href="/">Home</a>
         <a href="/budget">Budget</a>
         <a href="/savings">Savings</a>
-        <a href="/demat-simulator">Demat Simulator</a>
+        <a href="/demat-simulator" class="active">Demat Simulator</a>
         <a href="/quiz">Quiz</a>
-        <a href="/investments">Investments</a>
+        <a href="/investments" >Investments</a>
         <a href="/welcome">Login</a>
-      </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
     <!-- Onboarding Page -->
     <div id="onboarding-page" class="page-content min-h-screen bg-gradient-to-br from-blue-900 via-purple-700 to-indigo-900 flex items-center justify-center p-8 text-white relative overflow-hidden hero-bg">
@@ -166,7 +173,7 @@
                 Experience realistic trading with live market simulations. Build confidence, learn strategies, and understand market dynamics before investing real money.
             </p>
             
-            <div class="grid md:grid-cols-4 gap-6 mb-12">
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
                 <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-3 hover:scale-105 feature-card-hover opacity-0 animate-slide-in-up stagger-1">
                     <div class="text-4xl mb-3 transition-transform duration-300 hover:scale-125">📊</div>
                     <h3 class="text-lg font-semibold mb-2">Live Market Data</h3>
@@ -177,11 +184,11 @@
                     <h3 class="text-lg font-semibold mb-2">Smart Missions</h3>
                     <p class="text-sm text-slate-300">Progressive challenges & rewards</p>
                 </div>
-                <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-3 hover:scale-105 feature-card-hover opacity-0 animate-slide-in-up stagger-3">
+                <!-- <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-3 hover:scale-105 feature-card-hover opacity-0 animate-slide-in-up stagger-3">
                     <div class="text-4xl mb-3 transition-transform duration-300 hover:scale-125">🤖</div>
                     <h3 class="text-lg font-semibold mb-2">AI Trading Coach</h3>
                     <p class="text-sm text-slate-300">Personalized tips & strategies</p>
-                </div>
+                </div> -->
                 <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-3 hover:scale-105 feature-card-hover opacity-0 animate-slide-in-up stagger-4">
                     <div class="text-4xl mb-3 transition-transform duration-300 hover:scale-125">📈</div>
                     <h3 class="text-lg font-semibold mb-2">Risk-Free Learning</h3>
