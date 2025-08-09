@@ -24,13 +24,13 @@
     <!-- Mobile Menu Toggle Button (will be created by JavaScript) -->
     <!-- Navigation Links -->
     <div class="nav-links">
-      <a href="/" class="active">Home</a>
+      <a href="/">Home</a>
         <a href="/budget">Budget</a>
         <a href="/savings">Savings</a>
         <a href="/demat-simulator">Demat Simulator</a>
         <a href="/quiz">Quiz</a>
         <a href="/investments">Investments</a>
-        <a href="/welcome">Login</a>
+        <a href="/welcome" class="active">Login</a>
     </div>
   </div>
 </nav>
@@ -60,8 +60,8 @@
     <h2 class="text-4xl font-bold mb-2">Welcome to <span class="text-green-400">FinLit Portal</span></h2>
     <p class="text-lg">Choose your path</p>
     <div class="flex justify-center gap-6 mt-6">
-      <button class="btn btn-primary" onclick="showForm('register')" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 shadow-md transition">Register</button>
-      <button class="btn btn-primary" onclick="showForm('login')" class="bg-white text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-200 shadow-md transition">Login</button>
+      <button onclick="showForm('register')" class="btn btn-primary bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 shadow-md transition z-[100]">Register</button>
+      <button onclick="showForm('login')" class="btn btn-primary bg-white text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-200 shadow-md transition z-[100]">Login</button>
     </div>
   </div>
 
@@ -109,8 +109,8 @@
     }
   </script>
 
-  <script src="../js/main.js"></script>
-  <script src="./js/welcome.js"></script>
+<script src="../js/welcome.js"></script>
+<script src="../js/main.js"></script>
 
 </body>
 </html>
