@@ -48,6 +48,8 @@ function createNewGoal() {
   const deadline = document.getElementById('goalDeadline').value;
   const category = document.getElementById('goalCategory').value;
   const initialAmount = parseFloat(document.getElementById('initialAmount').value) || 0;
+
+  //save in db
   
   // Validation
   if (!name) {
@@ -651,3 +653,4 @@ function exportGoalData() {
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('filterAll').classList.add('active');
 });
+
