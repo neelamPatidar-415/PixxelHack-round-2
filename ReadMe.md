@@ -1,6 +1,6 @@
 # *FinLit — Student Financial Literacy Portal 💰*
 
-Live Preview: [Your deployed URL here]
+Live Preview: [https://pixxelhack-round-2.onrender.com]
 
 ## *🚀 Overview*
 
@@ -11,96 +11,58 @@ FinLit is an interactive web platform designed to empower students with essentia
 *Frontend:* HTML5, CSS3, JavaScript
 *Styling:* Custom CSS with responsive design
 *Assets:* Custom icons and visual elements
-*Deployment:* [Your hosting platform]
+*Deployment:* Render
 
-## *🔧 Core Features*
+##*🔧 Core Features*
 
-### *📊 Smart Budgeting Tool*
-- Interactive budget calculator for tracking income and expenses
-- Visual representation of spending patterns
-- Real-time budget analysis and recommendations
+###*📈 Demat Trading Simulator* (Main Feature)
+Realistic stock trading platform for risk-free practice
 
-### *🎯 Savings Goal Tracker*
-- Set personalized savings goals with target amounts and deadlines
-- Visual progress tracking with completion percentages
-- Milestone celebrations and achievement badges
+Get personalized tips to improve your trading skills
 
-### *📈 Investment Learning Hub*
-- *Compound Interest Calculator:* Understand the power of compound growth
-- *SIP Calculator:* Learn about Systematic Investment Plans
-- *Early Bird vs Late Starter:* Interactive comparison tool showing investment timing impact
-- *Demat Trading Simulator:* Risk-free stock trading practice environment
+###*📊 Smart Budgeting Tool*
+Track income and expenses easily
 
-### *🧠 Financial Knowledge Quiz*
-- Comprehensive quizzes covering various financial topics
-- Progressive difficulty levels
-- Instant feedback and educational explanations
-- Achievement system with badges and scores
+Visual spend patterns and quick analysis
 
-### *💡 Daily Money Tips*
-- Curated financial advice and tips
-- Random tip generator for daily learning
-- Practical advice applicable to student life
+###*🎯 Savings Goal Tracker*
+Set goals with deadlines
 
-### *🛡 Fraud Protection Education*
-- Digital payment security guidelines
-- Scam awareness and prevention tips
-- Safe banking practices for students
+See your progress visually
 
-## *🎮 Gamification Elements*
+###*📚 Investment Learning Hub*
+Simple calculators for compound interest & SIP
 
-- *Progress Tracking:* Visual indicators for all learning modules
-- *Achievement Badges:* Unlock rewards for completing activities
-- *Interactive Tools:* Hands-on calculators and simulators
-- *Knowledge Testing:* Immediate feedback on quiz performance
+Interactive tools showing impact of early investing
 
-## *📱 User Experience*
+###*🧠 Financial Quiz*
+Quick quizzes with instant feedback
 
-- *Responsive Design:* Optimized for desktop, tablet, and mobile devices
-- *Intuitive Navigation:* Easy-to-use interface designed for students
-- *Visual Learning:* Icon-based navigation and colorful design elements
-- *Accessibility:* Student-friendly language and clear instructions
+Earn badges as you learn
+
+###*💡 Daily Money Tips*
+Bite-sized, practical finance advice
+
+Random tips to keep learning fresh
+
+###*🛡 Fraud Protection Education*
+Learn to spot scams and stay safe online
+
+###*🎮 Gamification Elements*
+Earn badges and track your progress
+
+Hands-on tools and instant quiz feedback
+
+###*📱 User Experience*
+Responsive design for all devices
+
+Easy, colorful, student-friendly interface
 
 ## *🚧 Current Limitations*
 
-- No user authentication system (planned for future release)
-- Data persistence requires browser local storage
-- Limited to frontend-only functionality currently
 - No multi-language support
-
-## *🌟 Planned Future Features*
-
-### *🔄 Next on the roadmap...*
-
-*✅ User Account System:* 
-- Personal profiles with progress tracking
-- Cross-device synchronization
-- Achievement history and badges
-
-*✅ Advanced Analytics:*
-- Detailed spending analysis and trends
-- Personalized financial health reports
-- Goal achievement statistics
-
-*✅ Social Features:*
-- Peer comparison and friendly competition
-- Study groups for financial challenges
-- Community discussion forums
-
-*✅ Enhanced Learning Tools:*
-- Video tutorials and interactive lessons
-- Real-world case studies and scenarios
-- Financial news integration for current events
-
-*✅ Mobile App:*
-- Native iOS and Android applications
-- Push notifications for daily tips and reminders
-- Offline mode for core features
-
-*✅ AI-Powered Assistant:*
-- Personalized financial advice chatbot
-- Smart goal recommendations
-- Adaptive learning paths based on user progress
+- Simplified Market Data — Real stock market complexities like sudden news or slippage aren’t fully modeled.
+- Limited Personalization — Tips and guidance may not fit every user’s unique financial situation perfectly.
 
 ## *🎓 Educational Impact*
 
@@ -111,19 +73,6 @@ FinLit addresses the critical gap in financial education by:
 - Encouraging good financial habits from an early age
 - Building confidence in financial decision-making
 - Preparing students for real-world financial challenges
-
-## *🏗 Installation & Setup*
-
-bash
-# Clone the repository
-git clone [your-repo-url]
-
-# Navigate to project directory
-cd finlit-portal
-
-# Open in your preferred code editor
-# Serve using a local web server (e.g., Live Server in VS Code)
-
 
 ## *🤝 Contributing*
 
