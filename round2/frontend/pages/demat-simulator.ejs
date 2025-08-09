@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Demat Simulator</title>
+
+  <!-- Tailwind CDN (so original Tailwind classes work) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide icons (web) -->
+  <script src="https://unpkg.com/lucide/dist/lucide.min.js"></script>
+
+  <style>
+    /* minor helper to ensure scrollbars look nice in panels */
+    .max-h-96 { max-height: 24rem; }
+  </style>
+</head>
+<body class="font-sans">
+
+<!-- ONBOARDING PAGE -->
+<section id="page-onboarding" class="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
+  <div class="max-w-2xl text-center text-white space-y-8">
+    <div class="space-y-4">
+      <div class="text-6xl mb-4">📈</div>
+      <h1 class="text-5xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+        Open Your First Demat & Start Trading
+      </h1>
+      <p class="text-xl text-gray-300 max-w-lg mx-auto">
+        Learn stock trading with zero risk. Practice with real market data before investing real money.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+        <i data-lucide="bar-chart-3" class="w-8 h-8 text-green-400 mb-3 mx-auto"></i>
+        <h3 class="font-semibold mb-2">Real Market Data</h3>
+        <p class="text-sm text-gray-300">Practice with live NSE/BSE prices</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+        <i data-lucide="target" class="w-8 h-8 text-blue-400 mb-3 mx-auto"></i>
+        <h3 class="font-semibold mb-2">Mission Based</h3>
+        <p class="text-sm text-gray-300">Complete challenges & earn badges</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+        <i data-lucide="book-open" class="w-8 h-8 text-purple-400 mb-3 mx-auto"></i>
+        <h3 class="font-semibold mb-2">AI Coach Tips</h3>
+        <p class="text-sm text-gray-300">Get guidance from our trading bot</p>
+      </div>
+    </div>
+
+    <button id="start-sim" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-full text-xl transform transition hover:scale-105 shadow-lg flex items-center gap-3 mx-auto">
+      <i data-lucide="play" class="w-6 h-6"></i>
+      Start Simulation
+    </button>
+
+    <p class="text-sm text-gray-400">
+      No signup required • Practice with ₹1,00,000 virtual money
+    </p>
+  </div>
+</section>
+
+<!-- SIMULATOR PAGE -->
+<section id="page-simulator" class="min-h-screen bg-gray-50 hidden">
+  <!-- Header -->
+  <div class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">Trading Simulator</h1>
+        <div class="flex items-center gap-4">
+          <div id="balance-badge" class="bg-green-100 text-green-800 px-3 py-1 rounded-lg font-medium">
+            Balance: ₹100,000
+          </div>
+          <div id="portfolio-badge" class="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg font-medium">
+            Portfolio: 0 stocks
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto p-4">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <!-- Stock List Panel -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-sm border p-4">
+          <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+            <i data-lucide="trending-up" class="w-5 h-5 text-green-500"></i>
+            Live Stocks
+          </h2>
+          <div id="stock-list" class="space-y-2 max-h-96 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <!-- Trading Panel -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-xl shadow-sm border p-6">
+          <h2 class="text-lg font-semibold mb-4">Trading Panel</h2>
+          <div id="trading-panel">
+            <div class="text-center py-12 text-gray-500">
+              <i data-lucide="bar-chart-3" class="w-12 h-12 mx-auto mb-4 text-gray-300"></i>
+              <p>Select a stock from the left panel to start trading</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coach & Portfolio Panel -->
+      <div class="lg:col-span-1 space-y-6">
+        <!-- Coach Bot -->
+        <div class="bg-white rounded-xl shadow-sm border p-4">
+          <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+            <i data-lucide="user" class="w-5 h-5 text-blue-500"></i>
+            Coach Bot
+          </h3>
+          <div class="bg-blue-50 p-4 rounded-lg">
+            <p id="coach-tip" class="text-sm text-blue-800">Tip</p>
+          </div>
+        </div>
+
+        <!-- Missions -->
+        <div class="bg-white rounded-xl shadow-sm border p-4">
+          <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+            <i data-lucide="award" class="w-5 h-5 text-yellow-500"></i>
+            Missions
+          </h3>
+          <div id="missions-list" class="space-y-3"></div>
+        </div>
+
+        <!-- Portfolio -->
+        <div id="portfolio-panel-placeholder"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RESULT PAGE -->
+<section id="page-result" class="min-h-screen bg-gradient-to-br from-green-900 via-emerald-900 to-teal-900 flex items-center justify-center p-4 hidden">
+  <div class="max-w-2xl text-center text-white space-y-8">
+    <div class="space-y-4">
+      <div id="result-emoji" class="text-6xl mb-4">🎉</div>
+      <h1 id="result-title" class="text-4xl font-bold">Great Job!</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+          <div id="res-cash" class="text-2xl font-bold">₹0</div>
+          <div class="text-sm text-gray-300">Cash Balance</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+          <div id="res-portfolio" class="text-2xl font-bold">₹0</div>
+          <div class="text-sm text-gray-300">Portfolio Value</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+          <div id="res-pnl" class="text-2xl font-bold text-green-400">+₹0</div>
+          <div class="text-sm text-gray-300">Total P&L</div>
+        </div>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 text-left">
+        <h3 class="text-lg font-semibold mb-3">📚 Key Learning Points</h3>
+        <ul id="res-learnings" class="space-y-2 text-sm"></ul>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-lg text-gray-200">
+        Ready to start your real trading journey?
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button id="open-real" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-full transition transform hover:scale-105 shadow-lg flex items-center gap-2 justify-center">
+          <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+          Open Real Demat Account
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+
+        <button id="practice-more" class="bg-white/20 hover:bg-white/30 text-white font-semibold py-3 px-6 rounded-full transition border border-white/30">
+          Practice More
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="./js/demat-simulator.js"></script>
+
+</body>
+</html>

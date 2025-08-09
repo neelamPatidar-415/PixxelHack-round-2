@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demat Trading Simulator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: #f8fafc;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Onboarding Styles */
+        .onboarding-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #312e81 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: white;
+        }
+
+        .onboarding-content {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .onboarding-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .onboarding-subtitle {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Simulator Styles */
+        .simulator-page {
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            color: #1f2937;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .stat-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .stat-green {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .stat-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .simulator-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-content {
+            padding: 1.5rem;
+        }
+
+        /* Stock List */
+        .stock-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .stock-item {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 0.5rem;
+            border: 1px solid transparent;
+        }
+
+        .stock-item:hover {
+            background: #f8fafc;
+        }
+
+        .stock-item.selected {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+
+        .stock-header {
+            display: flex;
+            justify-between;
+            align-items: center;
+        }
+
+        .stock-symbol {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .stock-name {
+            font-size: 0.75rem;
+            color: #6b7280;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stock-price {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .stock-change {
+            font-size: 0.75rem;
+            text-align: right;
+        }
+
+        .positive {
+            color: #059669;
+        }
+
+        .negative {
+            color: #dc2626;
+        }
+
+        /* Trading Panel */
+        .selected-stock {
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .selected-stock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .selected-stock-name h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .selected-stock-name p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .selected-stock-price {
+            text-align: right;
+        }
+
+        .selected-stock-price .price {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .total-amount {
+            background: #eff6ff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .total-amount-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .total-amount-row span:last-child {
+            font-weight: 600;
+        }
+
+        .trade-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-buy {
+            flex: 1;
+            background: #059669;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-buy:hover {
+            background: #047857;
+        }
+
+        .btn-sell {
+            flex: 1;
+            background: #dc2626;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-sell:hover {
+            background: #b91c1c;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6b7280;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Coach & Portfolio */
+        .coach-bot {
+            background: #eff6ff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .coach-message {
+            color: #1e40af;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .missions-list {
+            space-y: 1rem;
+        }
+
+        .mission-item {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 0.75rem;
+        }
+
+        .mission-item.completed {
+            background: #f0fdf4;
+            border-color: #22c55e;
+        }
+
+        .mission-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mission-status {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+        }
+
+        .mission-status.completed {
+            background: #22c55e;
+        }
+
+        .mission-status.pending {
+            background: #d1d5db;
+        }
+
+        .mission-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .mission-reward {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .portfolio-item {
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .holding-info {
+            font-size: 0.9rem;
+        }
+
+        .holding-symbol {
+            font-weight: 600;
+        }
+
+        .holding-quantity {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .holding-value {
+            text-align: right;
+        }
+
+        .holding-current {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .holding-pnl {
+            font-size: 0.75rem;
+        }
+
+        /* Result Page */
+        .result-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #065f46 0%, #047857 50%, #0d9488 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: white;
+        }
+
+        .result-content {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .result-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .result-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .result-stat {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .result-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-stat-label {
+            font-size: 0.875rem;
+            color: #cbd5e1;
+        }
+
+        .learning-points {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .learning-points h3 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .learning-points ul {
+            list-style: none;
+            space-y: 0.5rem;
+        }
+
+        .learning-points li {
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .result-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .onboarding-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .simulator-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .header-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .result-content h1 {
+                font-size: 2rem;
+            }
+
+            .result-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .trade-buttons {
+                flex-direction: column;
+            }
+
+            .result-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation for price updates */
+        .price-flash {
+            animation: flashGreen 0.8s ease-in-out;
+        }
+
+        .price-flash-red {
+            animation: flashRed 0.8s ease-in-out;
+        }
+
+        @keyframes flashGreen {
+            0% { background-color: rgba(16, 185, 129, 0.3); }
+            100% { background-color: transparent; }
+        }
+
+        @keyframes flashRed {
+            0% { background-color: rgba(220, 38, 38, 0.3); }
+            100% { background-color: transparent; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Onboarding Page -->
+    <div id="onboarding-page" class="page active onboarding-page">
+        <div class="onboarding-content">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">📈</div>
+            <h1>Open Your First Demat & Start Trading</h1>
+            <p class="onboarding-subtitle">
+                Learn stock trading with zero risk. Practice with real market data before investing real money.
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 style="margin-bottom: 0.5rem;">Real Market Data</h3>
+                    <p style="font-size: 0.875rem; color: #cbd5e1;">Practice with live NSE/BSE prices</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 style="margin-bottom: 0.5rem;">Mission Based</h3>
+                    <p style="font-size: 0.875rem; color: #cbd5e1;">Complete challenges & earn badges</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 style="margin-bottom: 0.5rem;">AI Coach Tips</h3>
+                    <p style="font-size: 0.875rem; color: #cbd5e1;">Get guidance from our trading bot</p>
+                </div>
+            </div>
+
+            <button onclick="showSimulator()" class="btn btn-primary" style="font-size: 1.25rem; padding: 1.25rem 2.5rem;">
+                ▶ Start Simulation
+            </button>
+            
+            <p style="margin-top: 1rem; font-size: 0.875rem; color: #94a3b8;">
+                No signup required • Practice with ₹1,00,000 virtual money
+            </p>
+        </div>
+    </div>
+
+    <!-- Simulator Page -->
+    <div id="simulator-page" class="page simulator-page">
+        <div class="header">
+            <div class="header-content">
+                <h1>Trading Simulator</h1>
+                <div class="header-stats">
+                    <div class="stat-badge stat-green">
+                        Balance: ₹<span id="balance-display">1,00,000</span>
+                    </div>
+                    <div class="stat-badge stat-blue">
+                        Portfolio: <span id="portfolio-count">0</span> stocks
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="simulator-container">
+            <!-- Stock List Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    📈 Live Stocks
+                </div>
+                <div class="panel-content">
+                    <div id="stock-list" class="stock-list">
+                        <!-- Stock items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trading Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    💰 Trading Panel
+                </div>
+                <div class="panel-content">
+                    <div id="trading-content">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📊</div>
+                            <p>Select a stock from the left panel to start trading</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coach & Portfolio Panel -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Coach Bot -->
+                <div class="panel">
+                    <div class="panel-header">
+                        🤖 Coach Bot
+                    </div>
+                    <div class="panel-content">
+                        <div class="coach-bot">
+                            <p id="coach-tip" class="coach-message">💡 Start with blue-chip stocks for safer investments</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Missions -->
+                <div class="panel">
+                    <div class="panel-header">
+                        🏆 Missions
+                    </div>
+                    <div class="panel-content">
+                        <div id="missions-list">
+                            <!-- Missions will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio -->
+                <div id="portfolio-panel" class="panel" style="display: none;">
+                    <div class="panel-header">
+                        📁 Your Portfolio
+                    </div>
+                    <div class="panel-content">
+                        <div id="portfolio-list">
+                            <!-- Portfolio items will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Page -->
+    <div id="result-page" class="page result-page">
+        <div class="result-content">
+            <div id="result-emoji" style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+            <h1 id="result-title">Great Job!</h1>
+            
+            <div class="result-stats">
+                <div class="result-stat">
+                    <div class="result-stat-value">₹<span id="final-balance">1,00,000</span></div>
+                    <div class="result-stat-label">Cash Balance</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value">₹<span id="portfolio-value">0</span></div>
+                    <div class="result-stat-label">Portfolio Value</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="total-pnl-display">₹0</div>
+                    <div class="result-stat-label">Total P&L</div>
+                </div>
+            </div>
+
+            <div class="learning-points">
+                <h3>📚 Key Learning Points</h3>
+                <ul id="learning-points-list">
+                    <!-- Learning points will be populated by JavaScript -->
+                </ul>
+            </div>
+
+            <p style="font-size: 1.25rem; color: #e2e8f0; margin: 2rem 0;">
+                Ready to start your real trading journey?
+            </p>
+            
+            <div class="result-actions">
+                <button onclick="window.open('https://zerodha.com/open-account?c=ZXARJD', '_blank')" 
+                        class="btn btn-primary" style="font-size: 1.1rem;">
+                    💰 Open Real Demat Account →
+                </button>
+                
+                <button onclick="resetSimulator()" class="btn btn-secondary">
+                    🔄 Practice More
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== GLOBAL STATE ==========
+        let currentPage = 'onboarding';
+        let selectedStock = null;
+        let quantity = 1;
+        let portfolio = [];
+        let balance = 100000;
+        let missions = [
+            { id: 1, title: "Make your first trade", completed: false, reward: "₹500 bonus" },
+            { id: 2, title: "Buy 5 different stocks", completed: false, reward: "Diversification Badge" },
+            { id: 3, title: "Hold stocks for 24 hours", completed: false, reward: "Patient Investor Badge" }
+        ];
+
+        // Mock stock data with realistic Indian stocks
+        let stocks = [
+            { symbol: 'RELIANCE', name: 'Reliance Industries', price: 2456.75, change: 2.34, changePercent: 0.95 },
+            { symbol: 'TCS', name: 'Tata Consultancy Services', price: 3892.50, change: -45.25, changePercent: -1.15 },
+            { symbol: 'HDFCBANK', name: 'HDFC Bank', price: 1678.90, change: 15.80, changePercent: 0.95 },
+            { symbol: 'INFY', name: 'Infosys', price: 1834.25, change: 12.45, changePercent: 0.68 },
+            { symbol: 'ICICIBANK', name: 'ICICI Bank', price: 1245.60, change: -8.90, changePercent: -0.71 },
+            { symbol: 'HINDUNILVR', name: 'Hindustan Unilever', price: 2567.30, change: 21.75, changePercent: 0.85 },
+            { symbol: 'ITC', name: 'ITC Limited', price: 456.80, change: 3.20, changePercent: 0.70 },
+            { symbol: 'BAJFINANCE', name: 'Bajaj Finance', price: 7234.50, change: -89.25, changePercent: -1.22 },
+            { symbol: 'LT', name: 'Larsen & Toubro', price: 3245.60, change: 45.30, changePercent: 1.42 },
+            { symbol: 'ASIANPAINT', name: 'Asian Paints', price: 2987.40, change: -23.15, changePercent: -0.77 }
+        ];
+
+        const coachTips = [
+            "💡 Start with blue-chip stocks for safer investments",
+            "📊 Always check the company's fundamentals before buying",
+            "⏰ Don't panic sell during market dips - stay calm!",
+            "🎯 Diversify your portfolio across different sectors",
+            "📈 Long-term investing often beats short-term trading",
+            "💰 Never invest money you can't afford to lose",
+            "🔍 Research before you invest - knowledge is power!",
+            "📉 Market volatility is normal - don't fear it",
+            "🏦 Consider the company's debt-to-equity ratio",
+            "📱 Keep learning - the market rewards educated investors",
+            "🎲 Don't put all your eggs in one basket",
+            "📚 Read annual reports of companies you invest in",
+            "💎 Quality companies can weather any storm",
+            "🕒 Time in the market beats timing the market",
+            "🧠 Emotional decisions lead to financial losses"
+        ];
+
+        let currentTip = 0;
+        let priceUpdateInterval;
+        let tipRotationInterval;
+
+        // ========== PAGE NAVIGATION ==========
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            currentPage = pageId;
+        }
+
+        function showSimulator() {
+            showPage('simulator-page');
+            initializeSimulator();
+        }
+
+        function showResult() {
+            showPage('result-page');
+            updateResultPage();
+        }
+
+        function resetSimulator() {
+            // Clear intervals
+            if (priceUpdateInterval) clearInterval(priceUpdateInterval);
+            if (tipRotationInterval) clearInterval(tipRotationInterval);
+            
+            // Reset state
+            selectedStock = null;
+            quantity = 1;
+            portfolio = [];
+            balance = 100000;
+            missions = [
+                { id: 1, title: "Make your first trade", completed: false, reward: "₹500 bonus" },
+                { id: 2, title: "Buy 5 different stocks", completed: false, reward: "Diversification Badge" },
+                { id: 3, title: "Hold stocks for 24 hours", completed: false, reward: "Patient Investor Badge" }
+            ];
+            
+            // Reset stock prices to original values
+            stocks = [
+                { symbol: 'RELIANCE', name: 'Reliance Industries', price: 2456.75, change: 2.34, changePercent: 0.95 },
+                { symbol: 'TCS', name: 'Tata Consultancy Services', price: 3892.50, change: -45.25, changePercent: -1.15 },
+                { symbol: 'HDFCBANK', name: 'HDFC Bank', price: 1678.90, change: 15.80, changePercent: 0.95 },
+                { symbol: 'INFY', name: 'Infosys', price: 1834.25, change: 12.45, changePercent: 0.68 },
+                { symbol: 'ICICIBANK', name: 'ICICI Bank', price: 1245.60, change: -8.90, changePercent: -0.71 },
+                { symbol: 'HINDUNILVR', name: 'Hindustan Unilever', price: 2567.30, change: 21.75, changePercent: 0.85 },
+                { symbol: 'ITC', name: 'ITC Limited', price: 456.80, change: 3.20, changePercent: 0.70 },
+                { symbol: 'BAJFINANCE', name: 'Bajaj Finance', price: 7234.50, change: -89.25, changePercent: -1.22 },
+                { symbol: 'LT', name: 'Larsen & Toubro', price: 3245.60, change: 45.30, changePercent: 1.42 },
+                { symbol: 'ASIANPAINT', name: 'Asian Paints', price: 2987.40, change: -23.15, changePercent: -0.77 }
+            ];
+            
+            showSimulator();
+        }
+
+        // ========== INITIALIZATION ==========
+        function initializeSimulator() {
+            renderStockList();
+            renderMissions();
+            updateBalanceDisplay();
+            updatePortfolioDisplay();
+            
+            // Start price updates every 3 seconds
+            priceUpdateInterval = setInterval(updateStockPrices, 3000);
+            
+            // Start coach tip rotation every 8 seconds
+            tipRotationInterval = setInterval(rotateCoachTip, 8000);
+        }
+
+        // ========== STOCK PRICE UPDATES ==========
+        function updateStockPrices() {
+            const previousPrices = stocks.map(stock => stock.price);
+            
+            stocks = stocks.map((stock, index) => {
+                const volatility = 0.02; // 2% max change per update
+                const randomChange = (Math.random() - 0.5) * volatility;
+                const newPrice = Math.max(stock.price * (1 + randomChange), 1);
+                const priceChange = newPrice - stock.price;
+                const changePercent = (priceChange / stock.price) * 100;
+                
+                return {
+                    ...stock,
+                    price: newPrice,
+                    change: priceChange,
+                    changePercent: changePercent
+                };
+            });
+
+            renderStockList();
+            
+            // Update selected stock if it exists
+            if (selectedStock) {
+                const updatedStock = stocks.find(s => s.symbol === selectedStock.symbol);
+                if (updatedStock) {
+                    selectedStock = updatedStock;
+                    renderTradingPanel();
+                }
+            }
+            
+            updatePortfolioDisplay();
+        }
+
+        // ========== COACH TIP ROTATION ==========
+        function rotateCoachTip() {
+            currentTip = (currentTip + 1) % coachTips.length;
+            const tipElement = document.getElementById('coach-tip');
+            if (tipElement) {
+                tipElement.style.opacity = '0.5';
+                setTimeout(() => {
+                    tipElement.textContent = coachTips[currentTip];
+                    tipElement.style.opacity = '1';
+                }, 300);
+            }
+        }
+
+        // ========== RENDER FUNCTIONS ==========
+        function renderStockList() {
+            const stockList = document.getElementById('stock-list');
+            if (!stockList) return;
+            
+            stockList.innerHTML = '';
+
+            stocks.forEach(stock => {
+                const stockItem = document.createElement('div');
+                stockItem.className = `stock-item ${selectedStock?.symbol === stock.symbol ? 'selected' : ''}`;
+                stockItem.onclick = () => selectStock(stock);
+                
+                stockItem.innerHTML = `
+                    <div class="stock-header">
+                        <div>
+                            <div class="stock-symbol">${stock.symbol}</div>
+                            <div class="stock-name">${stock.name}</div>
+                        </div>
+                        <div>
+                            <div class="stock-price">₹${stock.price.toFixed(2)}</div>
+                            <div class="stock-change ${stock.changePercent >= 0 ? 'positive' : 'negative'}">
+                                ${stock.changePercent >= 0 ? '+' : ''}${stock.changePercent.toFixed(2)}%
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add flash effect for price changes
+                if (stock.change !== 0) {
+                    stockItem.classList.add(stock.change > 0 ? 'price-flash' : 'price-flash-red');
+                    setTimeout(() => {
+                        stockItem.classList.remove('price-flash', 'price-flash-red');
+                    }, 800);
+                }
+                
+                stockList.appendChild(stockItem);
+            });
+        }
+
+        function selectStock(stock) {
+            selectedStock = stock;
+            renderStockList();
+            renderTradingPanel();
+        }
+
+        function renderTradingPanel() {
+            const tradingContent = document.getElementById('trading-content');
+            if (!tradingContent) return;
+            
+            if (!selectedStock) {
+                tradingContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <p>Select a stock from the left panel to start trading</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const totalAmount = selectedStock.price * quantity;
+
+            tradingContent.innerHTML = `
+                <div class="selected-stock">
+                    <div class="selected-stock-header">
+                        <div class="selected-stock-name">
+                            <h3>${selectedStock.symbol}</h3>
+                            <p>${selectedStock.name}</p>
+                        </div>
+                        <div class="selected-stock-price">
+                            <div class="price">₹${selectedStock.price.toFixed(2)}</div>
+                            <div class="stock-change ${selectedStock.changePercent >= 0 ? 'positive' : 'negative'}">
+                                ${selectedStock.changePercent >= 0 ? '+' : ''}${selectedStock.change.toFixed(2)} (${selectedStock.changePercent.toFixed(2)}%)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity-input">Quantity</label>
+                    <input 
+                        type="number" 
+                        id="quantity-input"
+                        value="${quantity}"
+                        min="1"
+                        oninput="updateQuantity(this.value)"
+                        class="quantity-input"
+                    />
+                </div>
+
+                <div class="total-amount">
+                    <div class="total-amount-row">
+                        <span>Total Amount:</span>
+                        <span>₹${totalAmount.toLocaleString('en-IN')}</span>
+                    </div>
+                </div>
+
+                <div class="trade-buttons">
+                    <button onclick="executeTrade('buy')" class="btn-buy">
+                        📈 BUY
+                    </button>
+                    <button onclick="executeTrade('sell')" class="btn-sell">
+                        📉 SELL
+                    </button>
+                </div>
+            `;
+        }
+
+        function updateQuantity(value) {
+            quantity = Math.max(1, parseInt(value) || 1);
+            renderTradingPanel();
+        }
+
+        function renderMissions() {
+            const missionsList = document.getElementById('missions-list');
+            if (!missionsList) return;
+            
+            missionsList.innerHTML = '';
+
+            missions.forEach(mission => {
+                const missionItem = document.createElement('div');
+                missionItem.className = `mission-item ${mission.completed ? 'completed' : ''}`;
+                
+                missionItem.innerHTML = `
+                    <div class="mission-header">
+                        <div class="mission-status ${mission.completed ? 'completed' : 'pending'}"></div>
+                        <span class="mission-title">${mission.title}</span>
+                    </div>
+                    <p class="mission-reward">${mission.reward}</p>
+                `;
+                
+                missionsList.appendChild(missionItem);
+            });
+        }
+
+        function updateBalanceDisplay() {
+            const balanceDisplay = document.getElementById('balance-display');
+            if (balanceDisplay) {
+                balanceDisplay.textContent = balance.toLocaleString('en-IN');
+            }
+        }
+
+        function updatePortfolioDisplay() {
+            const portfolioCount = document.getElementById('portfolio-count');
+            const portfolioPanel = document.getElementById('portfolio-panel');
+            const portfolioList = document.getElementById('portfolio-list');
+            
+            if (portfolioCount) {
+                portfolioCount.textContent = portfolio.length;
+            }
+
+            if (portfolio.length > 0) {
+                if (portfolioPanel) portfolioPanel.style.display = 'block';
+                
+                if (portfolioList) {
+                    portfolioList.innerHTML = '';
+                    
+                    portfolio.forEach(holding => {
+                        const currentStock = stocks.find(s => s.symbol === holding.symbol);
+                        const currentValue = currentStock ? currentStock.price * holding.quantity : 0;
+                        const investedValue = holding.avgPrice * holding.quantity;
+                        const pnl = currentValue - investedValue;
+                        
+                        const portfolioItem = document.createElement('div');
+                        portfolioItem.className = 'portfolio-item';
+                        
+                        portfolioItem.innerHTML = `
+                            <div class="portfolio-header">
+                                <div class="holding-info">
+                                    <div class="holding-symbol">${holding.symbol}</div>
+                                    <div class="holding-quantity">${holding.quantity} shares</div>
+                                </div>
+                                <div class="holding-value">
+                                    <div class="holding-current">₹${currentValue.toFixed(2)}</div>
+                                    <div class="holding-pnl ${pnl >= 0 ? 'positive' : 'negative'}">
+                                        ${pnl >= 0 ? '+' : ''}₹${pnl.toFixed(2)}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        portfolioList.appendChild(portfolioItem);
+                    });
+                }
+            } else {
+                if (portfolioPanel) portfolioPanel.style.display = 'none';
+            }
+        }
+
+        // ========== TRADING LOGIC ==========
+        function executeTrade(action) {
+            if (!selectedStock || quantity <= 0) return;
+
+            const totalAmount = selectedStock.price * quantity;
+            
+            if (action === 'buy' && totalAmount > balance) {
+                alert('Insufficient balance! You need ₹' + totalAmount.toLocaleString('en-IN') + ' but only have ₹' + balance.toLocaleString('en-IN'));
+                return;
+            }
+
+            const trade = {
+                id: Date.now(),
+                stock: selectedStock,
+                quantity,
+                action,
+                price: selectedStock.price,
+                amount: totalAmount,
+                timestamp: new Date()
+            };
+
+            if (action === 'buy') {
+                balance -= totalAmount;
+                
+                const existing = portfolio.find(p => p.symbol === selectedStock.symbol);
+                if (existing) {
+                    const totalQuantity = existing.quantity + quantity;
+                    const totalInvestment = (existing.avgPrice * existing.quantity) + totalAmount;
+                    existing.quantity = totalQuantity;
+                    existing.avgPrice = totalInvestment / totalQuantity;
+                } else {
+                    portfolio.push({ 
+                        ...selectedStock, 
+                        quantity, 
+                        avgPrice: selectedStock.price 
+                    });
+                }
+                
+                // Show success message
+                showTradeSuccess(`Bought ${quantity} shares of ${selectedStock.symbol} for ₹${totalAmount.toLocaleString('en-IN')}`);
+                
+            } else { // sell
+                const holding = portfolio.find(p => p.symbol === selectedStock.symbol);
+                if (!holding || holding.quantity < quantity) {
+                    alert(`Insufficient shares! You have ${holding ? holding.quantity : 0} shares but trying to sell ${quantity}.`);
+                    return;
+                }
+                
+                balance += totalAmount;
+                holding.quantity -= quantity;
+                
+                if (holding.quantity === 0) {
+                    portfolio = portfolio.filter(p => p.symbol !== selectedStock.symbol);
+                }
+                
+                // Show success message
+                showTradeSuccess(`Sold ${quantity} shares of ${selectedStock.symbol} for ₹${totalAmount.toLocaleString('en-IN')}`);
+            }
+
+            // Update missions
+            checkAndUpdateMissions();
+            
+            // Update displays
+            updateBalanceDisplay();
+            updatePortfolioDisplay();
+            renderMissions();
+            
+            // Show result after a short delay
+            setTimeout(() => {
+                showResult();
+            }, 1500);
+        }
+
+        function showTradeSuccess(message) {
+            // Create a temporary success message
+            const successDiv = document.createElement('div');
+            successDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #10b981;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                animation: slideIn 0.3s ease-out;
+            `;
+            successDiv.textContent = '✅ ' + message;
+            document.body.appendChild(successDiv);
+            
+            setTimeout(() => {
+                successDiv.remove();
+            }, 3000);
+        }
+
+        function checkAndUpdateMissions() {
+            missions = missions.map(mission => {
+                if (mission.id === 1 && !mission.completed) {
+                    return { ...mission, completed: true };
+                }
+                if (mission.id === 2 && portfolio.length >= 5 && !mission.completed) {
+                    return { ...mission, completed: true };
+                }
+                // Mission 3 would need time tracking - simplified for demo
+                return mission;
+            });
+        }
+
+        // ========== RESULT PAGE ==========
+        function updateResultPage() {
+            const totalPortfolioValue = portfolio.reduce((sum, holding) => {
+                const currentStock = stocks.find(s => s.symbol === holding.symbol);
+                return sum + (currentStock ? currentStock.price * holding.quantity : 0);
+            }, 0);
+
+            const totalPnL = (balance + totalPortfolioValue) - 100000;
+
+            // Update result display
+            const resultEmoji = document.getElementById('result-emoji');
+            const resultTitle = document.getElementById('result-title');
+            const finalBalance = document.getElementById('final-balance');
+            const portfolioValueEl = document.getElementById('portfolio-value');
+            const totalPnLDisplay = document.getElementById('total-pnl-display');
+            const learningPointsList = document.getElementById('learning-points-list');
+
+            if (resultEmoji) resultEmoji.textContent = totalPnL >= 0 ? '🎉' : '📊';
+            if (resultTitle) resultTitle.textContent = totalPnL >= 0 ? 'Great Job!' : 'Learning Experience!';
+            if (finalBalance) finalBalance.textContent = balance.toLocaleString('en-IN');
+            if (portfolioValueEl) portfolioValueEl.textContent = totalPortfolioValue.toLocaleString('en-IN');
+            
+            if (totalPnLDisplay) {
+                totalPnLDisplay.textContent = `${totalPnL >= 0 ? '+' : ''}₹${totalPnL.toFixed(2)}`;
+                totalPnLDisplay.className = `result-stat-value ${totalPnL >= 0 ? 'positive' : 'negative'}`;
+            }
+
+            // Update learning points
+            if (learningPointsList) {
+                learningPointsList.innerHTML = '';
+                const points = totalPnL >= 0 ? [
+                    '✅ You made profitable trades! This shows good stock selection.',
+                    '✅ Remember: Past performance doesn\'t guarantee future results.',
+                    '✅ Consider diversifying across different sectors for lower risk.'
+                ] : [
+                    '📖 Market volatility is normal - losses are part of learning.',
+                    '📖 Research companies thoroughly before investing real money.',
+                    '📖 Consider long-term investing instead of short-term trading.'
+                ];
+
+                points.forEach(point => {
+                    const li = document.createElement('li');
+                    li.textContent = point;
+                    learningPointsList.appendChild(li);
+                });
+            }
+        }
+
+        // ========== INITIALIZATION ON LOAD ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize with onboarding page
+            showPage('onboarding-page');
+            
+            // Add some CSS animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                .positive { color: #059669 !important; }
+                .negative { color: #dc2626 !important; }
+            `;
+            document.head.appendChild(style);
+        });
+
+        // ========== UTILITY FUNCTIONS ==========
+        function formatCurrency(amount) {
+            return '₹' + parseFloat(amount).toLocaleString('en-IN');
+        }
+
+        function getRandomStock() {
+            return stocks[Math.floor(Math.random() * stocks.length)];
+        }
+
+        // Make functions available globally
+        window.showSimulator = showSimulator;
+        window.showResult = showResult;
+        window.resetSimulator = resetSimulator;
+        window.selectStock = selectStock;
+        window.executeTrade = executeTrade;
+        window.updateQuantity = updateQuantity;
+    </script>
+</body>
+</html>

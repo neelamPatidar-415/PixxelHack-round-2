@@ -22,7 +22,8 @@ app.use(session({
 }));
 app.use(flash());
 
-const userRouter = require('./routes/UserRouter.js')
+const userRouter = require('./routes/UserRouter.js');
+// const dematRouter = require('./routes/dematRouter.js');
 
 // app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
@@ -42,6 +43,7 @@ app.get('/', function(req,res){
 })
 
 app.get('/budget', (req, res) => res.render('budget'));
+app.get('/demat-simulator', (req, res) => res.render('demat-simulator'));
 app.get('/savings', (req, res) => res.render('savings'));
 app.get('/quiz', (req, res) => res.render('quiz'));
 app.get('/investments', (req, res) => res.render('investments'));
