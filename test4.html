@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,26 +135,39 @@
             background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
     </style>
-    <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/components.css">
 </head>
 <body class="bg-gradient-to-br from-accent to-purple min-h-screen text-gray-800">
-    <!-- NAVIGATION BAR -->
-  <nav>
-    <div class="nav-container">
-      <!-- <div class="logo">💰 FinLit Portal</div> -->
-      <div class="logo"><img src="/images/WhatsApp Image 2025-08-09 at 16.46.01_0b7ada1a.jpg" alt="finlit-logo"> <div>FinLit</div></div>
-      <div class="nav-links">
-        <a href="/" class="active">Home</a>
-        <a href="/budget">Budget</a>
-        <a href="/savings">Savings</a>
-        <a href="/demat-simulator">Demat Simulator</a>
-        <a href="/quiz">Quiz</a>
-        <a href="/investments">Investments</a>
-        <a href="/welcome">Login</a>
-      </div>
-    </div>
-  </nav>
+    <!-- Navigation -->
+    <nav class="bg-secondary bg-opacity-95 backdrop-blur-md sticky top-0 z-50 shadow-xl animate-slide-in-down">
+        <div class="max-w-7xl mx-auto px-5 py-4">
+            <div class="flex justify-between items-center">
+                <div class="logo flex items-center gap-4 text-white font-bold text-2xl transition-transform duration-300 hover:scale-105 cursor-pointer" onclick="TradingApp?.showPage('onboarding-page')">
+                    <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-xl animate-pulse-glow shadow-lg">
+                        📈
+                    </div>
+                    <span class="hidden sm:block">TradeSim Pro</span>
+                </div>
+                <div class="hidden md:flex gap-6">
+                    <button onclick="TradingApp?.showPage('onboarding-page')" class="text-white font-medium px-4 py-2 rounded-full transition-all duration-300 hover:bg-primary hover:-translate-y-1 hover:scale-105 hover:shadow-lg">Home</button>
+                    <button onclick="TradingApp?.showSimulator()" class="text-white font-medium px-4 py-2 rounded-full transition-all duration-300 hover:bg-primary hover:-translate-y-1 hover:scale-105 hover:shadow-lg">Simulator</button>
+                    <button onclick="TradingApp?.showLeaderboard()" class="text-white font-medium px-4 py-2 rounded-full transition-all duration-300 hover:bg-primary hover:-translate-y-1 hover:scale-105 hover:shadow-lg">Leaderboard</button>
+                </div>
+                <div class="md:hidden">
+                    <button onclick="TradingApp?.toggleMobileMenu()" class="text-white p-2">
+                        <span class="sr-only">Menu</span>
+                        ☰
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-2">
+                    <button onclick="TradingApp?.showPage('onboarding-page')" class="text-white text-left px-4 py-2 rounded-lg hover:bg-primary transition-colors">Home</button>
+                    <button onclick="TradingApp?.showSimulator()" class="text-white text-left px-4 py-2 rounded-lg hover:bg-primary transition-colors">Simulator</button>
+                    <button onclick="TradingApp?.showLeaderboard()" class="text-white text-left px-4 py-2 rounded-lg hover:bg-primary transition-colors">Leaderboard</button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <!-- Onboarding Page -->
     <div id="onboarding-page" class="page-content min-h-screen bg-gradient-to-br from-blue-900 via-purple-700 to-indigo-900 flex items-center justify-center p-8 text-white relative overflow-hidden hero-bg">
@@ -191,7 +205,7 @@
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
                 <button onclick="TradingApp.showSimulator()" 
-                        class="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold text-xl px-12 py-4 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 animate-pulse-glow opacity-100 animate-fade-in-up group" 
+                        class="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold text-xl px-12 py-4 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 animate-pulse-glow opacity-0 animate-fade-in-up group" 
                         style="animation-delay: 0.6s; animation-fill-mode: both;">
                     <span class="flex items-center gap-2">
                         ▶ Start Trading Simulation
@@ -284,7 +298,7 @@
                             <span id="pnl-display">₹0</span>
                         </div>
                         <button onclick="TradingApp.showResult()" 
-                                class="bg-indigo-500  text-white px-4 py-2 rounded-xl hover:scale-105 transition-all duration-300 font-medium shadow-sm">
+                                class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-xl hover:scale-105 transition-all duration-300 font-medium shadow-sm">
                             📊 View Results
                         </button>
                     </div>
@@ -296,15 +310,14 @@
         <div class="max-w-7xl mx-auto p-4 grid grid-cols-1 xl:grid-cols-12 gap-6">
             <!-- Stock List Panel -->
             <div class="xl:col-span-3 bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-                <div class="bg-blue-600 text-white p-4">
-                  
-                    <div class="flex flex-col gap-2 items-center justify-between">
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
+                    <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2 font-semibold">
                             <span class="text-xl">📈</span>
                             Live Market
                         </div>
                         <select id="sector-filter" onchange="TradingApp.filterBySector(this.value)" 
-                                class="bg-white bg-opacity-100 text-black text-xs px-2 py-1 rounded border-none outline-none">
+                                class="bg-white bg-opacity-20 text-white text-xs px-2 py-1 rounded border-none outline-none">
                             <option value="">All Sectors</option>
                             <option value="IT">IT</option>
                             <option value="Banking">Banking</option>
@@ -352,41 +365,32 @@
 
             <!-- Enhanced Right Panel -->
             <div class="xl:col-span-3 space-y-6">
-              
-              <!-- Market Insights -->
-              <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-                  <div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white p-4">
-                      <div class="flex items-center gap-2 font-semibold">
-                          <span class="text-xl">📊</span>
-                          Market Insights
-                      </div>
-                  </div>
-                  <div class="p-4">
-                      <div id="market-insights" class="space-y-3 text-sm">
-                          <div class="flex justify-between">
-                              <span class="text-gray-600">Top Gainer:</span>
-                              <span id="top-gainer" class="text-green-600 font-semibold">--</span>
-                          </div>
-                          <div class="flex justify-between">
-                              <span class="text-gray-600">Top Loser:</span>
-                              <span id="top-loser" class="text-red-600 font-semibold">--</span>
-                          </div>
-                          <div class="flex justify-between">
-                              <span class="text-gray-600">Most Active:</span>
-                              <span id="most-active" class="text-blue-600 font-semibold">--</span>
-                          </div>
-                          <div class="mt-3 p-3 bg-gray-50 rounded-lg">
-                              <div class="text-xs text-gray-500 mb-1">Market Sentiment</div>
-                              <div id="market-sentiment" class="flex items-center gap-2">
-                                  <div class="w-full bg-gray-200 rounded-full h-2">
-                                      <div id="sentiment-bar" class="bg-green-500 h-2 rounded-full transition-all duration-500" style="width: 50%"></div>
-                                  </div>
-                                  <span id="sentiment-text" class="text-xs font-medium">Neutral</span>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                <!-- AI Coach with Advanced Tips -->
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4">
+                        <div class="flex items-center gap-2 font-semibold">
+                            <span class="text-xl">🤖</span>
+                            AI Trading Coach
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-4 rounded-lg">
+                            <p id="coach-tip" class="text-blue-800 text-sm leading-relaxed font-medium">
+                                💡 Welcome! Start by analyzing different sectors and their current trends.
+                            </p>
+                        </div>
+                        <div class="mt-3 flex gap-2">
+                            <button onclick="TradingApp.getMarketAnalysis()" 
+                                    class="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full hover:bg-blue-200 transition-colors">
+                                📊 Market Analysis
+                            </button>
+                            <button onclick="TradingApp.getRiskAdvice()" 
+                                    class="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full hover:bg-purple-200 transition-colors">
+                                ⚠️ Risk Tips
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Enhanced Missions -->
                 <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
@@ -440,6 +444,40 @@
                     </div>
                 </div>
 
+                <!-- Market Insights -->
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white p-4">
+                        <div class="flex items-center gap-2 font-semibold">
+                            <span class="text-xl">📊</span>
+                            Market Insights
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div id="market-insights" class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Top Gainer:</span>
+                                <span id="top-gainer" class="text-green-600 font-semibold">--</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Top Loser:</span>
+                                <span id="top-loser" class="text-red-600 font-semibold">--</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Most Active:</span>
+                                <span id="most-active" class="text-blue-600 font-semibold">--</span>
+                            </div>
+                            <div class="mt-3 p-3 bg-gray-50 rounded-lg">
+                                <div class="text-xs text-gray-500 mb-1">Market Sentiment</div>
+                                <div id="market-sentiment" class="flex items-center gap-2">
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div id="sentiment-bar" class="bg-green-500 h-2 rounded-full transition-all duration-500" style="width: 50%"></div>
+                                    </div>
+                                    <span id="sentiment-text" class="text-xs font-medium">Neutral</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
